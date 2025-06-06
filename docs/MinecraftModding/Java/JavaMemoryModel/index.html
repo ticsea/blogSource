@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-MinecraftModding/Java/JavaMemoryModel" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.8.0">
+<title data-rh="true">JavaMemoryModel | 小记</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://recordweb.education.hidns.co/docs/MinecraftModding/Java/JavaMemoryModel"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="JavaMemoryModel | 小记"><meta data-rh="true" name="description" content="Java 内存管理手册"><meta data-rh="true" property="og:description" content="Java 内存管理手册"><link data-rh="true" rel="canonical" href="https://recordweb.education.hidns.co/docs/MinecraftModding/Java/JavaMemoryModel"><link data-rh="true" rel="alternate" href="https://recordweb.education.hidns.co/docs/MinecraftModding/Java/JavaMemoryModel" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://recordweb.education.hidns.co/docs/MinecraftModding/Java/JavaMemoryModel" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MinecraftModding","item":"https://recordweb.education.hidns.co/docs/MinecraftModding/"},{"@type":"ListItem","position":2,"name":"JavaMemoryModel","item":"https://recordweb.education.hidns.co/docs/MinecraftModding/Java/JavaMemoryModel"}]}</script><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="小记 RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="小记 Atom Feed"><link rel="stylesheet" href="/assets/css/styles.d1660f2c.css">
+<script src="/assets/js/runtime~main.9a15acdc.js" defer="defer"></script>
+<script src="/assets/js/main.ab9b8202.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t="light";var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",e||t),document.documentElement.setAttribute("data-theme-choice",e||t)}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><b class="navbar__title text--truncate">Home</b></a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/ticsea" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="切换浅色/暗黑模式（当前为system mode）"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/Github/LICENSE">Github</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/MinecraftModding/">MinecraftModding</a><button aria-label="折叠侧边栏分类 &#x27;MinecraftModding&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/MinecraftModding/Intellij/PracticalTips">Intellij</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/docs/MinecraftModding/Java/Generics">Java</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/MinecraftModding/Java/Generics">Generics</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/MinecraftModding/Java/JavaMemoryModel">JavaMemoryModel</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/MinecraftModding/Java/Supplier">Supplier</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/MinecraftModding/Java/static">static</a></li></ul></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/Other/Neovim">Other</a></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/docs/MinecraftModding/"><span>MinecraftModding</span></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Java</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">JavaMemoryModel</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>JavaMemoryModel</h1></header><h3 class="anchor anchorWithStickyNavbar_LWe7" id="java-内存管理手册">Java 内存管理手册<a href="#java-内存管理手册" class="hash-link" aria-label="Java 内存管理手册的直接链接" title="Java 内存管理手册的直接链接">​</a></h3>
+<p>—— 从运行时结构到垃圾回收深度解析</p>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="java-内存管理"><strong>Java 内存管理</strong><a href="#java-内存管理" class="hash-link" aria-label="java-内存管理的直接链接" title="java-内存管理的直接链接">​</a></h3>
+<table><thead><tr><th><strong>区域</strong></th><th><strong>存储内容</strong></th><th><strong>生命周期</strong></th><th><strong>线程共享性</strong></th></tr></thead><tbody><tr><td><strong>方法区（Method Area）</strong></td><td>类信息、常量、静态变量</td><td>JVM 启动到关闭</td><td>共享</td></tr><tr><td><strong>堆（Heap）</strong></td><td>对象实例、数组</td><td>对象创建到垃圾回收</td><td>共享</td></tr><tr><td><strong>虚拟机栈（VM Stack）</strong></td><td>方法调用的栈帧（局部变量、操作数栈）</td><td>方法调用开始到结束</td><td>线程私有</td></tr><tr><td><strong>本地方法栈（Native Stack）</strong></td><td>JNI（本地方法）调用</td><td>本地方法执行期间</td><td>线程私有</td></tr><tr><td><strong>程序计数器（PC Register）</strong></td><td>当前线程执行的字节码行号</td><td>线程创建到销毁</td><td>线程私有</td></tr></tbody></table>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="1-java-内存模型jmm概述">1. Java 内存模型（JMM）概述<a href="#1-java-内存模型jmm概述" class="hash-link" aria-label="1. Java 内存模型（JMM）概述的直接链接" title="1. Java 内存模型（JMM）概述的直接链接">​</a></h2>
+<p>Java 内存管理由 JVM（Java Virtual Machine） 自动处理，开发者无需手动分配释放内存，但仍需理解其机制以避免内存泄漏或性能问题。<br>
+<!-- -->核心目标：<br>
+<!-- -->✅ 高效分配对象内存<br>
+<!-- -->✅ 自动回收无用对象（GC）<br>
+<!-- -->✅ 隔离线程安全（栈私有 vs 堆共享）</p>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="2-运行时数据区runtime-data-areas">2. 运行时数据区（Runtime Data Areas）<a href="#2-运行时数据区runtime-data-areas" class="hash-link" aria-label="2. 运行时数据区（Runtime Data Areas）的直接链接" title="2. 运行时数据区（Runtime Data Areas）的直接链接">​</a></h2>
+<p>JVM 内存划分为以下核心区域：</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="1-方法区method-area">(1) 方法区（Method Area）<a href="#1-方法区method-area" class="hash-link" aria-label="(1) 方法区（Method Area）的直接链接" title="(1) 方法区（Method Area）的直接链接">​</a></h3>
+<ul>
+<li>存储内容：<!-- -->
+<ul>
+<li>类元信息（类名、父类、接口、方法代码等）。</li>
+<li>运行时常量池（如 <code>String</code> 常量、<code>final</code> 静态变量）。</li>
+</ul>
+</li>
+<li>关键点：<!-- -->
+<ul>
+<li>JDK 8 后由 元空间（Metaspace） 实现（取代永久代），使用本地内存，默认无上限（需监控防溢出）。</li>
+<li>溢出错误：<code>OutOfMemoryError Metaspace</code>。</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="2-堆heap">(2) 堆（Heap）<a href="#2-堆heap" class="hash-link" aria-label="(2) 堆（Heap）的直接链接" title="(2) 堆（Heap）的直接链接">​</a></h3>
+<ul>
+<li>存储内容：所有对象实例和数组。</li>
+<li>分代设计（优化 GC 效率）：<!-- -->
+<ul>
+<li>新生代（Young Generation）：新创建的对象。<!-- -->
+<ul>
+<li>Eden 区：对象首次分配处。</li>
+<li>Survivor 区（S0S1）：Minor GC 后存活的对象。</li>
+</ul>
+</li>
+<li>老年代（Old Generation）：长期存活的对象（经过多次 GC 后晋升）。</li>
+<li>永久代（PermGen，JDK 7 及之前）：已废弃，被元空间取代。</li>
+</ul>
+</li>
+<li>溢出错误：<code>OutOfMemoryError Java heap space</code>。</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="3-虚拟机栈vm-stack">(3) 虚拟机栈（VM Stack）<a href="#3-虚拟机栈vm-stack" class="hash-link" aria-label="(3) 虚拟机栈（VM Stack）的直接链接" title="(3) 虚拟机栈（VM Stack）的直接链接">​</a></h3>
+<ul>
+<li>存储内容：每个线程私有的栈帧（Stack Frame），包含：<!-- -->
+<ul>
+<li>局部变量表（基本类型、对象引用）。</li>
+<li>操作数栈（方法计算时的临时数据）。</li>
+<li>动态链接（指向方法区的方法引用）。</li>
+<li>方法返回地址。</li>
+</ul>
+</li>
+<li>栈深度问题：<!-- -->
+<ul>
+<li>默认栈大小 1MB（可通过 <code>-Xss</code> 调整）。</li>
+<li>溢出错误：<code>StackOverflowError</code>（如无限递归）。</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="4-本地方法栈native-method-stack">(4) 本地方法栈（Native Method Stack）<a href="#4-本地方法栈native-method-stack" class="hash-link" aria-label="(4) 本地方法栈（Native Method Stack）的直接链接" title="(4) 本地方法栈（Native Method Stack）的直接链接">​</a></h3>
+<ul>
+<li>为 JNI（本地方法，如 CC++ 代码）服务的栈空间。</li>
+<li>溢出错误：同虚拟机栈。</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="5-程序计数器pc-register">(5) 程序计数器（PC Register）<a href="#5-程序计数器pc-register" class="hash-link" aria-label="(5) 程序计数器（PC Register）的直接链接" title="(5) 程序计数器（PC Register）的直接链接">​</a></h3>
+<ul>
+<li>记录当前线程执行的字节码行号（线程私有）。</li>
+<li>唯一无溢出风险的区域。</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="3-垃圾回收garbage-collection-gc">3. 垃圾回收（Garbage Collection, GC）<a href="#3-垃圾回收garbage-collection-gc" class="hash-link" aria-label="3. 垃圾回收（Garbage Collection, GC）的直接链接" title="3. 垃圾回收（Garbage Collection, GC）的直接链接">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="1-对象存活判定">(1) 对象存活判定<a href="#1-对象存活判定" class="hash-link" aria-label="(1) 对象存活判定的直接链接" title="(1) 对象存活判定的直接链接">​</a></h3>
+<ul>
+<li>引用计数法（已淘汰）：循环引用无法处理。</li>
+<li>可达性分析（主流）：<!-- -->
+<ul>
+<li>GC Roots 包括：<!-- -->
+<ul>
+<li>虚拟机栈中的局部变量。</li>
+<li>方法区中的静态变量。</li>
+<li>JNI 引用的本地对象。</li>
+</ul>
+</li>
+<li>从 GC Roots 出发，不可达的对象标记为垃圾。</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="2-垃圾回收算法">(2) 垃圾回收算法<a href="#2-垃圾回收算法" class="hash-link" aria-label="(2) 垃圾回收算法的直接链接" title="(2) 垃圾回收算法的直接链接">​</a></h3>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="算法-----------原理-------------------------------适用场景--------优缺点">算法           原理                               适用场景        优缺点<a href="#算法-----------原理-------------------------------适用场景--------优缺点" class="hash-link" aria-label="算法           原理                               适用场景        优缺点的直接链接" title="算法           原理                               适用场景        优缺点的直接链接">​</a></h2>
+<p>标记-清除      标记垃圾 → 直接清除                    老年代             简单，但产生内存碎片<br>
+<!-- -->复制算法       将存活对象复制到另一块内存             新生代（Eden→S0S1）  无碎片，但浪费 50% 空间<br>
+<!-- -->标记-整理      标记垃圾 → 存活对象向一端移动 → 清除   老年代             无碎片，但移动对象耗时<br>
+<!-- -->分代收集       结合上述算法，按对象生命周期分代处理   所有区域           综合性能最优（HotSpot 默认）</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="3-垃圾收集器hotspot-实现">(3) 垃圾收集器（HotSpot 实现）<a href="#3-垃圾收集器hotspot-实现" class="hash-link" aria-label="(3) 垃圾收集器（HotSpot 实现）的直接链接" title="(3) 垃圾收集器（HotSpot 实现）的直接链接">​</a></h3>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="收集器-----------分代---算法-----------特点">收集器           分代   算法           特点<a href="#收集器-----------分代---算法-----------特点" class="hash-link" aria-label="收集器           分代   算法           特点的直接链接" title="收集器           分代   算法           特点的直接链接">​</a></h2>
+<p>Serial           新生代    复制               单线程，STW（Stop-The-World）<br>
+<!-- -->Parallel Scavenge  新生代  复制               多线程，吞吐量优先<br>
+<!-- -->CMS              老年代    标记-清除          并发收集，低延迟（JDK 14 移除）<br>
+<!-- -->G1               全堆      分Region+标记-整理 平衡吞吐与延迟（JDK 9+ 默认）<br>
+<!-- -->ZGC              全堆      染色指针           超低延迟（JDK 15+ 生产可用）</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="4-gc-调优参数">(4) GC 调优参数<a href="#4-gc-调优参数" class="hash-link" aria-label="(4) GC 调优参数的直接链接" title="(4) GC 调优参数的直接链接">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain"># 堆大小设置</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">-Xms512m -Xmx1024m      # 初始堆 512MB，最大堆 1GB</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">-XXNewRatio=2          # 新生代老年代 = 12</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">-XXSurvivorRatio=8     # EdenS0S1 = 811</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"># 选择收集器</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">-XX+UseG1GC            # 启用 G1</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">-XX+UseConcMarkSweepGC # 启用 CMS（已废弃）</span><br></span></code></pre></div></div>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="4-内存问题诊断与工具">4. 内存问题诊断与工具<a href="#4-内存问题诊断与工具" class="hash-link" aria-label="4. 内存问题诊断与工具的直接链接" title="4. 内存问题诊断与工具的直接链接">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="1-常见内存问题">(1) 常见内存问题<a href="#1-常见内存问题" class="hash-link" aria-label="(1) 常见内存问题的直接链接" title="(1) 常见内存问题的直接链接">​</a></h3>
+<ul>
+<li>内存泄漏：对象无用时仍被引用（如静态集合未清理）。</li>
+<li>内存溢出：对象过多或堆设置过小（<code>OutOfMemoryError</code>）。</li>
+<li>GC 过频：新生代太小导致频繁 Minor GC。</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="2-诊断工具">(2) 诊断工具<a href="#2-诊断工具" class="hash-link" aria-label="(2) 诊断工具的直接链接" title="(2) 诊断工具的直接链接">​</a></h3>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="工具------------用途-------------------------------命令用法">工具            用途                               命令用法<a href="#工具------------用途-------------------------------命令用法" class="hash-link" aria-label="工具            用途                               命令用法的直接链接" title="工具            用途                               命令用法的直接链接">​</a></h2>
+<p>jstat           监控 GC 统计信息                       <code>jstat -gcutil pid 1000</code><br>
+<!-- -->jmap            生成堆转储快照（Heap Dump）            <code>jmap -dumpformat=b,file=heap.hprof pid</code><br>
+<!-- -->VisualVM        图形化分析内存和线程                   集成于 JDK，支持插件扩展<br>
+<!-- -->MAT（Eclipse）  分析 Heap Dump 查找泄漏对象            加载 <code>.hprof</code> 文件<br>
+<!-- -->Arthas          在线诊断 JVM 问题（如监控方法调用）     <code>watch com.example.MyClass </code></p>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="5-实战内存优化案例">5. 实战：内存优化案例<a href="#5-实战内存优化案例" class="hash-link" aria-label="5. 实战：内存优化案例的直接链接" title="5. 实战：内存优化案例的直接链接">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="案例-1缓存泄漏">案例 1：缓存泄漏<a href="#案例-1缓存泄漏" class="hash-link" aria-label="案例 1：缓存泄漏的直接链接" title="案例 1：缓存泄漏的直接链接">​</a></h3>
+<p>问题：静态 <code>HashMap</code> 缓存数据未清理，导致老年代堆积。<br>
+<!-- -->解决：改用弱引用 <code>WeakHashMap</code> 或定期清理。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="案例-2频繁-full-gc">案例 2：频繁 Full GC<a href="#案例-2频繁-full-gc" class="hash-link" aria-label="案例 2：频繁 Full GC的直接链接" title="案例 2：频繁 Full GC的直接链接">​</a></h3>
+<p>现象：<code>System.gc()</code> 被滥用或元空间未限制。<br>
+<!-- -->优化：禁用显式 GC（<code>-XX+DisableExplicitGC</code>）并限制元空间（<code>-XXMaxMetaspaceSize=256m</code>）。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="案例-3线程栈溢出">案例 3：线程栈溢出<a href="#案例-3线程栈溢出" class="hash-link" aria-label="案例 3：线程栈溢出的直接链接" title="案例 3：线程栈溢出的直接链接">​</a></h3>
+<p>场景：递归调用未设终止条件。<br>
+<!-- -->修复：改为循环或增加栈大小（<code>-Xss2m</code>）。</p>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="6-总结">6. 总结<a href="#6-总结" class="hash-link" aria-label="6. 总结的直接链接" title="6. 总结的直接链接">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="主题-----------关键点">主题           关键点<a href="#主题-----------关键点" class="hash-link" aria-label="主题           关键点的直接链接" title="主题           关键点的直接链接">​</a></h2>
+<p>内存结构       堆存对象、栈存方法调用，方法区存类信息，PC 寄存器记录执行位置。<br>
+<!-- -->GC 机制        分代收集（新生代复制算法，老年代标记-整理），G1ZGC 为现代低延迟选择。<br>
+<!-- -->问题排查       结合 <code>jstat</code>、Heap Dump、MAT 定位泄漏或溢出。<br>
+<!-- -->调优原则       避免过早优化，监控后再调整堆大小、分代比例和收集器。</p>
+<p>附录：</p>
+<ul>
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/" target="_blank" rel="noopener noreferrer">Java GC Tuning Guide</a></li>
+<li>《深入理解 Java 虚拟机》——周志明</li>
+</ul>
+<p>通过本手册，您可系统掌握 Java 内存管理的核心知识，高效应对生产环境问题！ 🚀</p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/MinecraftModding/Java/Generics"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">Generics</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/MinecraftModding/Java/Supplier"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">Supplier</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#java-内存管理手册" class="table-of-contents__link toc-highlight">Java 内存管理手册</a></li><li><a href="#java-内存管理" class="table-of-contents__link toc-highlight"><strong>Java 内存管理</strong></a></li><li><a href="#1-java-内存模型jmm概述" class="table-of-contents__link toc-highlight">1. Java 内存模型（JMM）概述</a></li><li><a href="#2-运行时数据区runtime-data-areas" class="table-of-contents__link toc-highlight">2. 运行时数据区（Runtime Data Areas）</a><ul><li><a href="#1-方法区method-area" class="table-of-contents__link toc-highlight">(1) 方法区（Method Area）</a></li><li><a href="#2-堆heap" class="table-of-contents__link toc-highlight">(2) 堆（Heap）</a></li><li><a href="#3-虚拟机栈vm-stack" class="table-of-contents__link toc-highlight">(3) 虚拟机栈（VM Stack）</a></li><li><a href="#4-本地方法栈native-method-stack" class="table-of-contents__link toc-highlight">(4) 本地方法栈（Native Method Stack）</a></li><li><a href="#5-程序计数器pc-register" class="table-of-contents__link toc-highlight">(5) 程序计数器（PC Register）</a></li></ul></li><li><a href="#3-垃圾回收garbage-collection-gc" class="table-of-contents__link toc-highlight">3. 垃圾回收（Garbage Collection, GC）</a><ul><li><a href="#1-对象存活判定" class="table-of-contents__link toc-highlight">(1) 对象存活判定</a></li><li><a href="#2-垃圾回收算法" class="table-of-contents__link toc-highlight">(2) 垃圾回收算法</a></li></ul></li><li><a href="#算法-----------原理-------------------------------适用场景--------优缺点" class="table-of-contents__link toc-highlight">算法           原理                               适用场景        优缺点</a><ul><li><a href="#3-垃圾收集器hotspot-实现" class="table-of-contents__link toc-highlight">(3) 垃圾收集器（HotSpot 实现）</a></li></ul></li><li><a href="#收集器-----------分代---算法-----------特点" class="table-of-contents__link toc-highlight">收集器           分代   算法           特点</a><ul><li><a href="#4-gc-调优参数" class="table-of-contents__link toc-highlight">(4) GC 调优参数</a></li></ul></li><li><a href="#4-内存问题诊断与工具" class="table-of-contents__link toc-highlight">4. 内存问题诊断与工具</a><ul><li><a href="#1-常见内存问题" class="table-of-contents__link toc-highlight">(1) 常见内存问题</a></li><li><a href="#2-诊断工具" class="table-of-contents__link toc-highlight">(2) 诊断工具</a></li></ul></li><li><a href="#工具------------用途-------------------------------命令用法" class="table-of-contents__link toc-highlight">工具            用途                               命令用法</a></li><li><a href="#5-实战内存优化案例" class="table-of-contents__link toc-highlight">5. 实战：内存优化案例</a><ul><li><a href="#案例-1缓存泄漏" class="table-of-contents__link toc-highlight">案例 1：缓存泄漏</a></li><li><a href="#案例-2频繁-full-gc" class="table-of-contents__link toc-highlight">案例 2：频繁 Full GC</a></li><li><a href="#案例-3线程栈溢出" class="table-of-contents__link toc-highlight">案例 3：线程栈溢出</a></li></ul></li><li><a href="#6-总结" class="table-of-contents__link toc-highlight">6. 总结</a></li><li><a href="#主题-----------关键点" class="table-of-contents__link toc-highlight">主题           关键点</a></li></ul></div></div></div></div></main></div></div></div></div>
+</body>
+</html>
