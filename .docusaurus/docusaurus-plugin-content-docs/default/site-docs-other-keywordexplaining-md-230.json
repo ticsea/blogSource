@@ -1,0 +1,23 @@
+{
+  "id": "Other/keywordexplaining",
+  "title": "keywordexplaining",
+  "description": "C",
+  "source": "@site/docs/Other/keywordexplaining.md",
+  "sourceDirName": "Other",
+  "slug": "/Other/keywordexplaining",
+  "permalink": "/docs/Other/keywordexplaining",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "VSC_hotkey",
+    "permalink": "/docs/Other/VSC_hotkey"
+  },
+  "next": {
+    "title": "rpgmakerFileStructure",
+    "permalink": "/docs/Other/rpgmakerFileStructure"
+  }
+}

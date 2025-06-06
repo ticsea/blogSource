@@ -1,0 +1,23 @@
+{
+  "id": "MinecraftModding/Java/JavaMemoryModel",
+  "title": "JavaMemoryModel",
+  "description": "Java 内存管理手册",
+  "source": "@site/docs/MinecraftModding/Java/JavaMemoryModel.md",
+  "sourceDirName": "MinecraftModding/Java",
+  "slug": "/MinecraftModding/Java/JavaMemoryModel",
+  "permalink": "/docs/MinecraftModding/Java/JavaMemoryModel",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Generics",
+    "permalink": "/docs/MinecraftModding/Java/Generics"
+  },
+  "next": {
+    "title": "Supplier",
+    "permalink": "/docs/MinecraftModding/Java/Supplier"
+  }
+}

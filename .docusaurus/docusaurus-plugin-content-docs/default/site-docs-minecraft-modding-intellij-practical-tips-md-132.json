@@ -1,0 +1,23 @@
+{
+  "id": "MinecraftModding/Intellij/PracticalTips",
+  "title": "PracticalTips",
+  "description": "当然有，以下是 IntelliJ IDEA 在 Minecraft Mod 开发（Forge/NeoForge）中的实用技巧和最佳实践，涵盖代码导航、调试、构建、代码结构优化等方面，帮助你 更高效地开发 Mod。",
+  "source": "@site/docs/MinecraftModding/Intellij/PracticalTips.md",
+  "sourceDirName": "MinecraftModding/Intellij",
+  "slug": "/MinecraftModding/Intellij/PracticalTips",
+  "permalink": "/docs/MinecraftModding/Intellij/PracticalTips",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "MinecraftModding",
+    "permalink": "/docs/MinecraftModding/"
+  },
+  "next": {
+    "title": "Generics",
+    "permalink": "/docs/MinecraftModding/Java/Generics"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "Other/rpgmakerFileStructure",
+  "title": "rpgmakerFileStructure",
+  "description": "RPG Maker MV / MZ 项目的文件结构（尤其是数据层）主要由以下几个部分组成，这里我为你详细拆解每个文件或目录的作用、用途和与 traits 等数据的关系：",
+  "source": "@site/docs/Other/rpgmakerFileStructure.md",
+  "sourceDirName": "Other",
+  "slug": "/Other/rpgmakerFileStructure",
+  "permalink": "/docs/Other/rpgmakerFileStructure",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "keywordexplaining",
+    "permalink": "/docs/Other/keywordexplaining"
+  }
+}

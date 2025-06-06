@@ -1,0 +1,23 @@
+{
+  "id": "MinecraftModding/Java/static",
+  "title": "static",
+  "description": "static 关键字的系统性严谨解释",
+  "source": "@site/docs/MinecraftModding/Java/static.md",
+  "sourceDirName": "MinecraftModding/Java",
+  "slug": "/MinecraftModding/Java/static",
+  "permalink": "/docs/MinecraftModding/Java/static",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Supplier",
+    "permalink": "/docs/MinecraftModding/Java/Supplier"
+  },
+  "next": {
+    "title": "Neovim",
+    "permalink": "/docs/Other/Neovim"
+  }
+}

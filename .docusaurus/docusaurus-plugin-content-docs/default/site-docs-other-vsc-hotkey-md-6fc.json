@@ -1,0 +1,23 @@
+{
+  "id": "Other/VSC_hotkey",
+  "title": "VSC_hotkey",
+  "description": "Reference Card",
+  "source": "@site/docs/Other/VSC_hotkey.md",
+  "sourceDirName": "Other",
+  "slug": "/Other/VSC_hotkey",
+  "permalink": "/docs/Other/VSC_hotkey",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Neovim",
+    "permalink": "/docs/Other/Neovim"
+  },
+  "next": {
+    "title": "keywordexplaining",
+    "permalink": "/docs/Other/keywordexplaining"
+  }
+}
