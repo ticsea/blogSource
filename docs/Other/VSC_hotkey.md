@@ -1,0 +1,1 @@
+![Reference Card](/img/vscode/keyboard-shortcuts-win.png)
